@@ -1,24 +1,36 @@
 import { combineReducers } from 'redux'
+import { LOGIN, LOGOUT, UPDATEINFO } from './action-type'
 
-
-const initialState = {
+const initialUser = {
     id:'',
     username:'unknow'
 }
 
+const initialInfo = {
+    message:'Index Page'
+}
 
-const userReducer = (state = initialState, action) => {
+const userReducer = (state = initialUser, action) => {
     switch (action.type) {
-        case 'LOGIN':
+        case LOGIN :
             return Object.assign({}, state, action.user)
-        case 'LOGOUT':
+        case LOGOUT :
             return {}
         default :
             return state
     }
 }
 
+const infoReducer = (state = initialInfo, action ) => {
+    switch(action.type) {
+        case UPDATEINFO : 
+            return { ...state, ...action.info }
+        default :
+            return state
+    }
+}
 
 export default combineReducers({
-    user:userReducer
+    user : userReducer,
+    info : infoReducer
 })
