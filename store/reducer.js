@@ -7,7 +7,7 @@ const initialUser = {
 }
 
 const initialInfo = {
-    message:'Index Page'
+    message:'login'
 }
 
 const userReducer = (state = initialUser, action) => {

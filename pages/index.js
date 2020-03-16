@@ -1,7 +1,11 @@
 import { connect } from 'react-redux'
-
+import { Button } from 'antd'
+import {github} from '../config'
 const Index = props => {
-    return <span>{ props.message }</span>
+    const {client_id,scope,redirect_uri} = github
+    return <a href={`https://github.com/login/oauth/authorize?client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}`}>
+            <Button>{ props.message }</Button>
+        </a>
 }
 
 const mapState = state => {
