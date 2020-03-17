@@ -1,8 +1,8 @@
 const Koa = require('koa')
-const Router = require('koa-router')
 const next = require('next')
 const session = require('koa-session')
 const Redis = require('ioredis')
+const router = require('./server/router')
 const sessionStore = require('./server/session-store')
 const config = require('./config')
 const auth = require('./server/authorization')
@@ -13,7 +13,6 @@ const handle = app.getRequestHandler()
 redis.on('connect',()=>{ console.log('redis client connected...') })
 app.prepare().then(() => {
     const server = new Koa()
-    const router = new Router()
     server.keys = ['a project for next study']
     const sessionConfig = {
         key:'sessionId',
@@ -21,13 +20,13 @@ app.prepare().then(() => {
     }
     server.use(session(sessionConfig, server))
     server.use(auth)
+    server.use(router.routes())
+    server.use(router.allowedMethods())
     server.use(async (ctx, next) => {
         await handle(ctx.req, ctx.res)
         ctx.response = false
         next()
     })
-    server.use(router.routes())
-    server.use(router.allowedMethods())
     server.listen(config.server.port, () => {
         console.log(`the server is running at port ${ config.server.port }...`)
     })
