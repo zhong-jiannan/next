@@ -1,23 +1,19 @@
 import { useState, useCallback } from 'react'
 import { Layout, Input, Avatar } from 'antd'
+import Container from './container'
 const { Header, Content, Footer } = Layout
-
+const Inner = ({ children, color,style }) => <div style={{color,...style}} >{children}</div>
 
 export default ({ children }) => {
+
     const [value,setValue] = useState('')
-
-    const handleChangeInput = useCallback((event)=>{
-        setValue(event.target.value)
-    },[])
-
-    const handleOnSearch = useCallback(()=>{
-        console.log('on search')
-    },[])
-
+    const handleChangeInput = useCallback((event)=>{setValue(event.target.value)},[])
+    const handleOnSearch = useCallback(()=>{console.log('on search')},[])
+    
     return (
         <Layout>
             <Header>
-                <div className="inner">
+                <Container render={<Inner />}>
                     <div className="left">
                         <div className="logo">
                             <Avatar size={40} />
@@ -30,32 +26,31 @@ export default ({ children }) => {
                             onSearch={handleOnSearch}
                             />
                         </div>
-                        <div className="clearfix"></div>
                     </div>
-                    <div className="right">
-                        <div className="user">
-                            <Avatar size={40} src="https://avatars0.githubusercontent.com/u/58517681?v=4" />
-                        </div>
-                    </div>
-                    <div className="clearfix"></div>
-                </div>
+                    <Avatar size={40} src="https://avatars0.githubusercontent.com/u/58517681?v=4" />
+                </Container>
             </Header>
-            <Content>{children}</Content>
+            <Content>
+                <Container render={<Inner />}>
+                    {children}
+                </Container>
+                </Content>
             <Footer>
                 <p className="copyright">Copyright © 2020 qianyi All rights reserved.</p>
             </Footer>
             <style jsx>{`
-                .inner{width:1200px;margin:0 auto}
-                .clearfix{clear:both}
-                .left{float:left;width:300px}
-                .logo{width:40px;float:left}
-                .search{width:240px;float:right}
-                .right{width:40px;float:right}
+                .left{width:300px;display:inline-flex;justify-content:space-between;}
+                .right{width:40px;}
+                .logo{width:40px;}
+                .search{width:240px;}
                 .copyright{text-align:center}
             `}</style>
             <style jsx global>{`
                 #__next,.ant-layout,.ant-layout-content{
                     height:100%;
+                }
+                .ant-layout-header{
+                    padding:0
                 }
             `}</style>
         </Layout>
