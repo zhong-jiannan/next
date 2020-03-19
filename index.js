@@ -23,6 +23,7 @@ app.prepare().then(() => {
     server.use(router.routes())
     server.use(router.allowedMethods())
     server.use(async (ctx, next) => {
+        ctx.req.session = ctx.session
         await handle(ctx.req, ctx.res)
         ctx.response = false
         next()
