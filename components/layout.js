@@ -1,22 +1,31 @@
 import { useState, useCallback } from 'react'
-import { Layout, Input, Avatar } from 'antd'
+import { Layout, Input, Avatar, Tooltip, Dropdown, Menu } from 'antd'
+import{ logout } from '../store/action-creators'
+import { connect } from 'react-redux'
+import { github } from '../config'
 import Container from './container'
 const { Header, Content, Footer } = Layout
 const Inner = ({ children, color,style }) => <div style={{color,...style}} >{children}</div>
 
-export default ({ children }) => {
-
+const MyLayout = ({ children, user, logout }) => {
     const [value,setValue] = useState('')
     const handleChangeInput = useCallback((event)=>{setValue(event.target.value)},[])
     const handleOnSearch = useCallback(()=>{console.log('on search')},[])
-    
+    const handleLogout = useCallback(()=>{logout()},[])
+    const logoutMeun = ()=>(
+        <Menu>
+            <Menu.Item>
+                <div onClick={handleLogout}>退出</div>
+            </Menu.Item>
+        </Menu>
+    )
     return (
         <Layout>
             <Header>
                 <Container render={<Inner />}>
                     <div className="left">
                         <div className="logo">
-                            <Avatar size={40} />
+                            <Avatar size={40} src="/logo.svg" />
                         </div>
                         <div className="search">
                             <Input.Search
@@ -27,7 +36,16 @@ export default ({ children }) => {
                             />
                         </div>
                     </div>
-                    <Avatar size={40} src="https://avatars0.githubusercontent.com/u/58517681?v=4" />
+                    {
+                    (user && user.id) ? 
+                    <Dropdown overlay={logoutMeun}>
+                        <Avatar size={40} src={user.avatar_url} />
+                    </Dropdown>
+                    :
+                    <Tooltip title="点击登陆">
+                        <a href={github.login_url}><Avatar size={40} src="/logo.png" /></a>
+                    </Tooltip>
+                    }
                 </Container>
             </Header>
             <Content>
@@ -56,3 +74,19 @@ export default ({ children }) => {
         </Layout>
     )
 }
+
+
+const mapState = state =>{
+    return {
+        user:state.user
+    }
+}
+
+
+const mapDispatch = dispatch => {
+    return {
+        logout:()=>{dispatch(logout)}
+    }
+}
+
+export default connect(mapState,mapDispatch)(MyLayout)
