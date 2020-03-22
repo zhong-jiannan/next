@@ -1,13 +1,21 @@
 #__next,
-.ant-layout,
-.ant-layout-content {
+.ant-layout {
     height: 100%;
 }
 
-.ant-layout-header {
-    padding: 0
+.ant-layout-content {
+    min-height: calc(100% - 148px);
+    background: #fff;
 }
 
-.copyright {
-    text-align: center
+.ant-layout-header {
+    padding-left: 0;
+    padding-right: 0
+}
+
+.ant-layout-footer{
+    padding:0;
+    height: 64px;
+    display: flex;
+    align-items: center;
 }

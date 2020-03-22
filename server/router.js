@@ -1,5 +1,5 @@
 const Router = require('koa-router')
-const router = new Router
+const router = new Router()
 const axios = require('axios')
 const { github } = require('../config')
 
@@ -36,20 +36,23 @@ router.get('/auth',async ctx => {
             return ctx.body = 'get user info failed'
         }
         ctx.session.user = userResp.data
-        ctx.redirect(ctx.session.prepath)
-        return ctx.session.prepath = ''
+        ctx.redirect(ctx.session.refer || '/')
+        return ctx.session.refer = ''
     }
     return ctx.body = 'you need have a code to access login'
 })
 
 
-router.get('/prepath',async ctx => {
-    if(ctx.query.prepath){
-        ctx.session.prepath = ctx.query.prepath
+router.get('/login',async ctx => {
+    if(ctx.query.refer){
+        ctx.session.refer = ctx.query.refer
         return ctx.redirect(github.login_url)
     }
-    ctx.body = 'server error'
+    ctx.body = {
+        message:'you need have a refer path to redirect after login'
+    }
     ctx.status = 500
+    ctx.set({"Content-Type":"application/json"})
 })
 
 

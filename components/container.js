@@ -1,7 +1,7 @@
 import { cloneElement } from 'react'
 
 
-const style = {
+const basic = {
     width:'100%',
     maxWidth:1200,
     marginLeft:'auto',
@@ -13,11 +13,10 @@ const style = {
     paddingRight:20
 }
 
-
-
 export default ({ children, render }) =>{
     return cloneElement(render,{
-        style,
+        className:'inner-wrapper',
+        style:Object.assign({},basic,render.props.style),
         children
     })
 }

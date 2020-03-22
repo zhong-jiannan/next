@@ -1,17 +1,18 @@
 import { useState, useCallback } from 'react'
 import { withRouter } from 'next/router'
-import { Layout, Input, Avatar, Tooltip, Dropdown, Menu } from 'antd'
+import Link from 'next/link'
+import { Layout, Input, Avatar, Tooltip, Dropdown, Menu, Button } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import{ logout } from '../store/action-creators'
 import { connect } from 'react-redux'
 import Container from './container'
 const { Header, Content, Footer } = Layout
-const Inner = ({ children, color,style }) => <div style={{color,...style}} >{children}</div>
 
 const MyLayout = ({ children, user, logout, router }) => {
     const [value,setValue] = useState('')
     const handleChangeInput = useCallback((event)=>{setValue(event.target.value)},[])
     const handleOnSearch = useCallback(()=>{console.log('on search')},[])
-    const handleLogout = useCallback(()=>{logout()},[])
+    const handleLogout = useCallback(()=>{logout()},[logout])
     const logoutMeun = ()=>(
         <Menu>
             <Menu.Item>
@@ -22,10 +23,12 @@ const MyLayout = ({ children, user, logout, router }) => {
     return (
         <Layout>
             <Header>
-                <Container render={<Inner />}>
+                <Container render={<div />}>
                     <div className="left">
                         <div className="logo">
-                            <Avatar size={40} src="/images/logo.svg" />
+                            <Link href="/">
+                                <Avatar size={40} src="/images/logo.svg" />
+                            </Link>
                         </div>
                         <div className="search">
                             <Input.Search
@@ -43,24 +46,27 @@ const MyLayout = ({ children, user, logout, router }) => {
                     </Dropdown>
                     :
                     <Tooltip title="点击登陆">
-                        <a href={`/prepath?prepath=${router.asPath}`}><Avatar size={40} src="/logo.png" /></a>
+                        <a href={`/login?refer=${router.asPath}`}><Avatar size={40} icon={ <UserOutlined />} /></a>
                     </Tooltip>
                     }
                 </Container>
             </Header>
             <Content>
-                <Container render={<Inner />}>
+                <Container render={<div style={{justifyContent:'flex-start'}} />}>
                     {children}
                 </Container>
                 </Content>
             <Footer>
-                <p className="copyright">Copyright © 2020 qianyi All rights reserved.</p>
+                <Container render={<div style={{justifyContent:'center'}} />}>
+                    <p className="copyright">Copyright © 2020 qianyi All rights reserved.</p>
+                </Container>
             </Footer>
             <style jsx>{`
-                .left{width:300px;display:inline-flex;justify-content:space-between;}
-                .right{width:40px;}
-                .logo{width:40px;}
-                .search{width:240px;}
+                .left{width:300px;display:inline-flex;justify-content:space-between}
+                .right{width:40px}
+                .logo{width:40px;cursor:pointer}
+                .search{width:240px}
+                .copyright{margin:0}
             `}</style>
         </Layout>
     )
