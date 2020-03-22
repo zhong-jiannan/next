@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react'
+import { withRouter } from 'next/router'
 import { Layout, Input, Avatar, Tooltip, Dropdown, Menu } from 'antd'
 import{ logout } from '../store/action-creators'
 import { connect } from 'react-redux'
-import { github } from '../config'
 import Container from './container'
 const { Header, Content, Footer } = Layout
 const Inner = ({ children, color,style }) => <div style={{color,...style}} >{children}</div>
 
-const MyLayout = ({ children, user, logout }) => {
+const MyLayout = ({ children, user, logout, router }) => {
     const [value,setValue] = useState('')
     const handleChangeInput = useCallback((event)=>{setValue(event.target.value)},[])
     const handleOnSearch = useCallback(()=>{console.log('on search')},[])
@@ -25,7 +25,7 @@ const MyLayout = ({ children, user, logout }) => {
                 <Container render={<Inner />}>
                     <div className="left">
                         <div className="logo">
-                            <Avatar size={40} src="/logo.svg" />
+                            <Avatar size={40} src="/images/logo.svg" />
                         </div>
                         <div className="search">
                             <Input.Search
@@ -43,7 +43,7 @@ const MyLayout = ({ children, user, logout }) => {
                     </Dropdown>
                     :
                     <Tooltip title="点击登陆">
-                        <a href={github.login_url}><Avatar size={40} src="/logo.png" /></a>
+                        <a href={`/prepath?prepath=${router.asPath}`}><Avatar size={40} src="/logo.png" /></a>
                     </Tooltip>
                     }
                 </Container>
@@ -61,15 +61,6 @@ const MyLayout = ({ children, user, logout }) => {
                 .right{width:40px;}
                 .logo{width:40px;}
                 .search{width:240px;}
-                .copyright{text-align:center}
-            `}</style>
-            <style jsx global>{`
-                #__next,.ant-layout,.ant-layout-content{
-                    height:100%;
-                }
-                .ant-layout-header{
-                    padding:0
-                }
             `}</style>
         </Layout>
     )
@@ -89,4 +80,4 @@ const mapDispatch = dispatch => {
     }
 }
 
-export default connect(mapState,mapDispatch)(MyLayout)
+export default connect(mapState,mapDispatch)(withRouter(MyLayout))
