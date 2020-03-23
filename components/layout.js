@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { withRouter } from 'next/router'
 import Link from 'next/link'
-import { Layout, Input, Avatar, Tooltip, Dropdown, Menu, Button } from 'antd'
+import { Layout, Input, Avatar, Tooltip, Dropdown, Menu } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import{ logout } from '../store/action-creators'
 import { connect } from 'react-redux'
@@ -23,7 +23,7 @@ const MyLayout = ({ children, user, logout, router }) => {
     return (
         <Layout>
             <Header>
-                <Container render={<div />}>
+                <Container render={<div style={{alignItems:'center'}} />}>
                     <div className="left">
                         <div className="logo">
                             <Link href="/">
@@ -52,13 +52,15 @@ const MyLayout = ({ children, user, logout, router }) => {
                 </Container>
             </Header>
             <Content>
-                <Container render={<div style={{justifyContent:'flex-start'}} />}>
+                <Container render={<div style={{flexGrow:1}} />}>
                     {children}
                 </Container>
                 </Content>
             <Footer>
                 <Container render={<div style={{justifyContent:'center'}} />}>
-                    <p className="copyright">Copyright © 2020 qianyi All rights reserved.</p>
+                    <p className="copyright">Develop By ZhongJiannan @ 2020.
+                    <a href="http://beian.miit.gov.cn/">赣ICP备19010672号-1</a>
+                    </p>
                 </Container>
             </Footer>
             <style jsx>{`
@@ -67,6 +69,7 @@ const MyLayout = ({ children, user, logout, router }) => {
                 .logo{width:40px;cursor:pointer}
                 .search{width:240px}
                 .copyright{margin:0}
+                .copyright a {margin-left:15px}
             `}</style>
         </Layout>
     )

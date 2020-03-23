@@ -8,7 +8,6 @@ const basic = {
     marginRight:'auto',
     display:'flex',
     justifyContent:'space-between',
-    alignItems:'center',
     paddingLeft:20,
     paddingRight:20
 }

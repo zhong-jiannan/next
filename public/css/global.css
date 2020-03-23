@@ -4,7 +4,8 @@
 }
 
 .ant-layout-content {
-    min-height: calc(100% - 148px);
+    display: flex;
+    flex-grow: 1;
     background: #fff;
 }
 
