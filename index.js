@@ -5,6 +5,7 @@ const Redis = require('ioredis')
 const router = require('./server/router')
 const sessionStore = require('./server/session-store')
 const config = require('./config')
+const api = require('./server/api')
 const redis = new Redis({...config.redis})
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -18,6 +19,7 @@ app.prepare().then(() => {
         store:new sessionStore(redis)
     }
     server.use(session(sessionConfig, server))
+    server.use(api)
     server.use(router.routes())
     server.use(router.allowedMethods())
     server.use(async (ctx, next) => {
