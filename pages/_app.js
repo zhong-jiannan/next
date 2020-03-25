@@ -3,9 +3,9 @@ import 'antd/dist/antd.min.css'
 import '../public/css/global.css'
 import { Provider } from 'react-redux'
 import Router from 'next/router'
+import withRedux from '../lib/with-redux'
 import Layout from '../components/layout'
 import Loading from '../components/loading'
-import withRedux from '../components/with-redux'
 class MyApp extends App {
 
     constructor(props){

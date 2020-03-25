@@ -2,7 +2,8 @@ import { GlobalOutlined, MailOutlined, HomeOutlined } from '@ant-design/icons'
 import { github } from '../config'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
-const Index = ({user}) => {
+const Index = ({user,data}) => {
+    console.log(data)
     if(!user || !user.id){
         return <div className="wrapper">
             <p className="tip-text">您还未登陆</p>
@@ -71,7 +72,6 @@ return <div className='info'>
 `}</style>
 </div>
 }
-
 
 const mapState = state => ({
     user:state.user

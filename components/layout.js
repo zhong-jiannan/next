@@ -11,7 +11,9 @@ const { Header, Content, Footer } = Layout
 const MyLayout = ({ children, user, logout, router }) => {
     const [value,setValue] = useState('')
     const handleChangeInput = useCallback((event)=>{setValue(event.target.value)},[])
-    const handleOnSearch = useCallback(()=>{console.log('on search')},[])
+    const handleOnSearch = useCallback(()=>{
+        router.push(`/search?data=${value}`)
+    },[value])
     const handleLogout = useCallback(()=>{logout()},[logout])
     const logoutMeun = ()=>(
         <Menu>
