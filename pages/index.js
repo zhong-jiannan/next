@@ -2,15 +2,14 @@ import { GlobalOutlined, MailOutlined, HomeOutlined } from '@ant-design/icons'
 import { github } from '../config'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
-const Index = ({user,data}) => {
-    console.log(data)
-    if(!user || !user.id){
+const Index = ({ user }) => {
+    if (!user || !user.id) {
         return <div className="wrapper">
             <p className="tip-text">您还未登陆</p>
             <a href={github.login_url}>
                 <Button type="primary">点击登陆</Button>
             </a>
-        <style jsx>{`
+            <style jsx>{`
             .wrapper{
                 display:flex;
                 width:100%;
@@ -26,8 +25,7 @@ const Index = ({user,data}) => {
         `}</style>
         </div>
     }
-
-return <div className='info'>
+    return <div className='info'>
         <div className="basic-info">
             <div className="avatar">
                 <img src={user.avatar_url} />
@@ -46,35 +44,35 @@ return <div className='info'>
                 {user.blog}
             </p>
         </div>
-<style jsx>{`
-    .info{
-        display:flex;
-        justify-content:space-between;
-    }
-    .basic-info{
-        display:flex;
-        flex-direction:column;
-    }
-    .avatar{
-        width:200px;
-        height:200px;
-        margin-top:30px;
-        margin-bottom:30px;
-    }
-    .avatar img {
-        border-radius:5px;
-        width:100%;
-    }
-    .name{
-        font-size:22px;
-    }
-
-`}</style>
-</div>
+        <style jsx>{`
+.info{
+    display:flex;
+    justify-content:space-between;
+}
+.basic-info{
+    display:flex;
+    flex-direction:column;
+}
+.avatar{
+    width:200px;
+    height:200px;
+    margin-top:30px;
+    margin-bottom:30px;
+}
+.avatar img {
+    border-radius:5px;
+    width:100%;
+}
+.name{
+    font-size:22px;
 }
 
-const mapState = state => ({
-    user:state.user
-})
+`}</style>
+    </div>
 
-export default connect(mapState)(Index)
+}
+    const mapState = state => ({
+        user: state.user
+    })
+
+    export default connect(mapState)(Index)
