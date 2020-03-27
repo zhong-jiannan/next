@@ -1,23 +1,21 @@
 import { request } from '../lib/request'
 
-
-
 const Search = ({data})=>{
-       
-    return <span>Search Page</span>
+    
+    return <span data={data}>Search Page</span>
 }
 
 Search.getInitialProps = async ({ctx}) =>{
 
-    const data = ctx.query.data
+    const query = ctx.query && ctx.query.query
 
     let searchData ={}
     
-    if(data){
+    if(query){
         const resp = await request({
             url:`/search/repositories`,
             data:{
-                q:data
+                q:'react'
             }
         },ctx.req)
 

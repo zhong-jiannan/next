@@ -12,7 +12,7 @@ const MyLayout = ({ children, user, logout, router }) => {
     const [value,setValue] = useState('')
     const handleChangeInput = useCallback((event)=>{setValue(event.target.value)},[])
     const handleOnSearch = useCallback(()=>{
-        router.push(`/search?data=${value}`)
+        router.push(`/search?query=${value}`)
     },[value])
     const handleLogout = useCallback(()=>{logout()},[logout])
     const logoutMeun = ()=>(

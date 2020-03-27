@@ -1,8 +1,10 @@
 import { GlobalOutlined, MailOutlined, HomeOutlined } from '@ant-design/icons'
+import { request } from '../lib/request'
 import { github } from '../config'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
-const Index = ({ user }) => {
+const Index = ({ user,repos }) => {
+    console.log('index中的repos：',repos)
     if (!user || !user.id) {
         return <div className="wrapper">
             <p className="tip-text">您还未登陆</p>
@@ -45,34 +47,35 @@ const Index = ({ user }) => {
             </p>
         </div>
         <style jsx>{`
-.info{
-    display:flex;
-    justify-content:space-between;
-}
-.basic-info{
-    display:flex;
-    flex-direction:column;
-}
-.avatar{
-    width:200px;
-    height:200px;
-    margin-top:30px;
-    margin-bottom:30px;
-}
-.avatar img {
-    border-radius:5px;
-    width:100%;
-}
-.name{
-    font-size:22px;
-}
-
-`}</style>
+            .info{
+                display:flex;
+                justify-content:space-between;
+            }
+            .basic-info{
+                display:flex;
+                flex-direction:column;
+            }
+            .avatar{
+                width:200px;
+                height:200px;
+                margin-top:30px;
+                margin-bottom:30px;
+            }
+            .avatar img {
+                border-radius:5px;
+                width:100%;
+            }
+            .name{
+                font-size:22px;
+            }
+        `}</style>
     </div>
-
 }
-    const mapState = state => ({
-        user: state.user
-    })
 
-    export default connect(mapState)(Index)
+
+const mapState = state => ({
+    user: state.user
+})
+
+
+export default connect(mapState)(Index)

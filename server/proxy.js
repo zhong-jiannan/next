@@ -1,10 +1,10 @@
 const { requestGithub } = require('../lib/request')
-
 module.exports = server => {
     server.use(async (ctx,next) => {
         const path = ctx.path
         const method = ctx.method
         if(path.startsWith('/github/')){
+            
             const session = ctx.session
             const token = session.token || {}
             const headers = {} 
