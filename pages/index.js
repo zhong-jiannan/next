@@ -3,6 +3,7 @@ import { request } from '../lib/request'
 import { github } from '../config'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
+import Repo from '../components/repo'
 const Index = ({ user,repos }) => {
     console.log('index中的repos：',repos)
     if (!user || !user.id) {
@@ -46,8 +47,12 @@ const Index = ({ user,repos }) => {
                 {user.blog}
             </p>
         </div>
+        <div className="repos-info">
+           <Repo repos={repos} />
+        </div>
         <style jsx>{`
             .info{
+                width:100%;
                 display:flex;
                 justify-content:space-between;
             }
@@ -70,6 +75,24 @@ const Index = ({ user,repos }) => {
             }
         `}</style>
     </div>
+}
+
+Index.getInitialProps = async (ctx) =>{
+    console.log(ctx)
+    const result = await request({
+        url:'/user/repos'
+    },ctx.ctx.req)
+
+    if(result.status === 200){
+        return {
+            repos:result.data
+        }
+    }
+
+
+    return {
+
+    }
 }
 
 
