@@ -13,6 +13,12 @@ const handle = app.getRequestHandler()
 redis.on('connect',()=>{ console.log('redis client connected...') })
 app.prepare().then(() => {
     const server = new Koa()
+
+    server.on('error',err => {
+        console.log('启动index错误',err)
+    })
+
+
     server.keys = ['a project for next study']
     const sessionConfig = {
         key:'sessionId',

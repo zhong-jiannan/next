@@ -3,9 +3,7 @@ import { request } from '../lib/request'
 import { github } from '../config'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
-import Repo from '../components/repo'
-const Index = ({ user,repos }) => {
-    console.log('index中的repos：',repos)
+const Index = ({ user,repos,starred }) => {
     if (!user || !user.id) {
         return <div className="wrapper">
             <p className="tip-text">您还未登陆</p>
@@ -28,7 +26,7 @@ const Index = ({ user,repos }) => {
         `}</style>
         </div>
     }
-    return <div className='info'>
+    return <div className='info' repos={repos} starred={starred}>
         <div className="basic-info">
             <div className="avatar">
                 <img src={user.avatar_url} />
@@ -46,9 +44,6 @@ const Index = ({ user,repos }) => {
                 <GlobalOutlined />
                 {user.blog}
             </p>
-        </div>
-        <div className="repos-info">
-           <Repo repos={repos} />
         </div>
         <style jsx>{`
             .info{
@@ -77,19 +72,35 @@ const Index = ({ user,repos }) => {
     </div>
 }
 
-Index.getInitialProps = async (ctx) =>{
-    console.log(ctx)
-    const result = await request({
-        url:'/user/repos'
-    },ctx.ctx.req)
+Index.getInitialProps = async ({ctx,reduxStore}) =>{
+    const user = reduxStore.getState().user
+    if(user && user.id){
+        try{
+            const repos = await request({
+                url:'/user/repos'
+            },ctx.req)
 
-    if(result.status === 200){
-        return {
-            repos:result.data
+            const starred = await request({
+                url:'/user/starred'
+            },ctx.req)
+
+            const data = {}
+
+            if(repos && repos.status === 200){
+                data['repos'] = repos.data
+            }
+            if(starred && starred.status === 200){
+                data['starred'] = starred.data
+            }
+
+            return data
+
+        }catch(err){
+            console.log('index请求错误')
+            console.error(err)
         }
+
     }
-
-
     return {
 
     }
