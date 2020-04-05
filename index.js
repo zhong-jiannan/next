@@ -2,6 +2,7 @@ const Koa = require('koa')
 const next = require('next')
 const session = require('koa-session')
 const Redis = require('ioredis')
+const onerror = require('koa-onerror')
 const router = require('./server/router')
 const sessionStore = require('./server/session-store')
 const config = require('./config')
@@ -14,11 +15,8 @@ redis.on('connect',()=>{ console.log('redis client connected...') })
 app.prepare().then(() => {
     const server = new Koa()
 
-    server.on('error',err => {
-        console.log('启动index错误',err)
-    })
-
-
+    onerror(server)
+    
     server.keys = ['a project for next study']
     const sessionConfig = {
         key:'sessionId',

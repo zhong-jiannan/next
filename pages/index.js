@@ -3,6 +3,7 @@ import { request } from '../lib/request'
 import { github } from '../config'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
+import Repo from '../components/repo'
 const Index = ({ user,repos,starred }) => {
     if (!user || !user.id) {
         return <div className="wrapper">
@@ -26,8 +27,8 @@ const Index = ({ user,repos,starred }) => {
         `}</style>
         </div>
     }
-    return <div className='info' repos={repos} starred={starred}>
-        <div className="basic-info">
+    return <div className='wrapper' repos={repos} starred={starred}>
+        <div className="user-info">
             <div className="avatar">
                 <img src={user.avatar_url} />
             </div>
@@ -45,20 +46,24 @@ const Index = ({ user,repos,starred }) => {
                 {user.blog}
             </p>
         </div>
+        <div className="repo-info">
+            { repos.map((item,index) => <Repo repo={item} key={index} /> )}
+        </div>
         <style jsx>{`
-            .info{
+            .wrapper{
                 width:100%;
                 display:flex;
                 justify-content:space-between;
+                padding:20px 0
             }
-            .basic-info{
+            .user-info{
                 display:flex;
                 flex-direction:column;
+                margin-right:20px;
             }
             .avatar{
                 width:200px;
                 height:200px;
-                margin-top:30px;
                 margin-bottom:30px;
             }
             .avatar img {
@@ -67,6 +72,9 @@ const Index = ({ user,repos,starred }) => {
             }
             .name{
                 font-size:22px;
+            }
+            .repo-info{
+                flex:1;
             }
         `}</style>
     </div>
