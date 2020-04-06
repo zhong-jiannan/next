@@ -2,9 +2,11 @@ import { GlobalOutlined, MailOutlined, HomeOutlined } from '@ant-design/icons'
 import { request } from '../lib/request'
 import { github } from '../config'
 import { connect } from 'react-redux'
-import { Button } from 'antd'
+import { Button, Tabs, Empty } from 'antd'
 import Repo from '../components/repo'
-const Index = ({ user,repos,starred }) => {
+
+const Index = ({ user, repos, starred }) => {
+
     if (!user || !user.id) {
         return <div className="wrapper">
             <p className="tip-text">您还未登陆</p>
@@ -27,7 +29,7 @@ const Index = ({ user,repos,starred }) => {
         `}</style>
         </div>
     }
-    return <div className='wrapper' repos={repos} starred={starred}>
+    return <div className='wrapper'>
         <div className="user-info">
             <div className="avatar">
                 <img src={user.avatar_url} />
@@ -47,7 +49,14 @@ const Index = ({ user,repos,starred }) => {
             </p>
         </div>
         <div className="repo-info">
-            { repos.map((item,index) => <Repo repo={item} key={index} /> )}
+            <Tabs animated={false}>
+                <Tabs.TabPane tab="创建的仓库" key="1">
+                    { repos ? repos.map((item,index) => <Repo repo={item} key={index} /> ) : <Empty /> }
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="关注的仓库" key="2">
+                    { starred ? starred.map((item,index) => <Repo repo={item} key={index} /> ): <Empty /> }
+                </Tabs.TabPane>
+            </Tabs>
         </div>
         <style jsx>{`
             .wrapper{
@@ -94,20 +103,19 @@ Index.getInitialProps = async ({ctx,reduxStore}) =>{
 
             const data = {}
 
-            if(repos && repos.status === 200){
+            if(repos && repos.status === 200 && !repos.data.error){
                 data['repos'] = repos.data
             }
-            if(starred && starred.status === 200){
+
+            if(starred && starred.status === 200 && !starred.data.error){
                 data['starred'] = starred.data
             }
 
             return data
 
         }catch(err){
-            console.log('index请求错误')
-            console.error(err)
+            console.log('index中repos和starred请求错误',err)
         }
-
     }
     return {
 

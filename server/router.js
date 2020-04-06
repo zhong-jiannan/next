@@ -34,7 +34,7 @@ router.get('/auth',async ctx => {
                 })
                 if(userResp.status !==200 || userResp.data.error){
                     console.log('router 36 : 获取用户信息失败',userResp)
-                    return ctx.body = 'router 36 : 获取用户信息失败'
+                    return ctx.body = 'router 37 : 获取用户信息失败'
                 }
                 ctx.session.user = userResp.data
                 ctx.redirect(ctx.session.refer || '/')
@@ -44,7 +44,7 @@ router.get('/auth',async ctx => {
                 return console.error('router 44 请求登陆错误:',err)
             }
         }
-        return ctx.body = 'router 46 : 未收到OAuth的code信息'
+        return ctx.body = 'router 47 : 未收到OAuth的code信息'
 })
 
 
@@ -54,7 +54,7 @@ router.get('/login',async ctx => {
         return ctx.redirect(github.login_url)
     }
     ctx.body = {
-        message:'router 53 : 需要一个登陆后的重定向地址'
+        message:'router 57 : 需要一个登陆后的重定向地址'
     }
     ctx.set({"Content-Type":"application/json"})
 })

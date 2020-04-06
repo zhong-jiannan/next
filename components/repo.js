@@ -9,7 +9,7 @@ function timeFormat(time){
     return moment(time).fromNow()
 }
 
-const Repo = ({ repo=[] }) => {
+const Repo = ({ repo }) => {
     return <div className="item">
                 <div className="basic-info">
                     <h3 className="title">
@@ -21,7 +21,7 @@ const Repo = ({ repo=[] }) => {
                     <p className="other-info">
                         <span className="licence">{getLicence(repo.licence)}</span>
                         <span className="last-update">{timeFormat(repo.updated_at)}</span>
-                        <span className="open-issues">{repo.open_issues_count}</span>
+                        <span className="open-issues">{repo.open_issues_count} open issues</span>
                     </p>
                 </div>
                 <div className="lang-star">
@@ -46,16 +46,19 @@ const Repo = ({ repo=[] }) => {
                     }
                     .lang-star{
                         display:flex;
+                        width:150px;
+                        justify-content:space-between;
                     }
-                    .lang-star > span{
+                    .other-info > span{
                         width:120px;
                         text-align:right;
+                        margin-right:10px;
                     }
-                    .lang-star > span:not(:empty){
-                        margin-left:10px;
+                    .other-info > span:empty{
+                        margin-right:0;
                     }
                     .repo-desc{
-                        width:400px;
+                        flex:1;
                     }
                 `}</style>
             </div>
