@@ -61,7 +61,7 @@ const MyLayout = ({ children, user, logout, router }) => {
             <Footer>
                 <Container render={<div style={{justifyContent:'center'}} />}>
                     <p className="copyright">Develop By ZhongJiannan @ 2020.
-                    <a href="http://beian.miit.gov.cn/">赣ICP备19010672号-1</a>
+                    <a href="http://beian.miit.gov.cn/">赣ICP备20004032号</a>
                     </p>
                 </Container>
             </Footer>

@@ -1,11 +1,22 @@
+import { useEffect } from 'react'
 import { GlobalOutlined, MailOutlined, HomeOutlined } from '@ant-design/icons'
 import { request } from '../lib/request'
 import { github } from '../config'
 import { connect } from 'react-redux'
-import { Button, Tabs, Empty } from 'antd'
+import { Button, Tabs, Empty, message } from 'antd'
 import Repo from '../components/repo'
 
 const Index = ({ user, repos, starred }) => {
+
+    useEffect(()=>{
+        
+        if(!user || !user.id) return
+
+        if(!repos) message.error('repos获取失败')
+
+        if(!starred) message.error('starred获取失败')
+
+    },[user,repos,starred])
 
     if (!user || !user.id) {
         return <div className="wrapper">
