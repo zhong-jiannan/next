@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
+import { withRouter } from 'next/router'
 import { GlobalOutlined, MailOutlined, HomeOutlined } from '@ant-design/icons'
 import { request } from '../lib/request'
-import { github } from '../config'
 import { connect } from 'react-redux'
 import { Button, Tabs, Empty, message } from 'antd'
 import Repo from '../components/repo'
 
-const Index = ({ user, repos, starred }) => {
+const Index = ({ user, repos, starred, router }) => {
 
     useEffect(()=>{
         
@@ -21,7 +21,7 @@ const Index = ({ user, repos, starred }) => {
     if (!user || !user.id) {
         return <div className="wrapper">
             <p className="tip-text">您还未登陆</p>
-            <a href={github.login_url}>
+            <a href={`/login?refer=${router.asPath}`}>
                 <Button type="primary">点击登陆</Button>
             </a>
             <style jsx>{`
@@ -139,4 +139,4 @@ const mapState = state => ({
 })
 
 
-export default connect(mapState)(Index)
+export default connect(mapState)(withRouter(Index))
