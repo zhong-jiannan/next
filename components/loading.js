@@ -7,9 +7,10 @@ export default ()=>{
     <style jsx>{`
         .loading{
             position:fixed;
-            width:100%;
-            top:64px;
-            height:calc(100% - 128px);
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;            
             background:rgba(0,0,0,0.1);
             display:flex;
             align-items:center;

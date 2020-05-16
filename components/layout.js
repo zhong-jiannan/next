@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { withRouter } from 'next/router'
+import Router, { withRouter } from 'next/router'
 import Link from 'next/link'
 import { Layout, Input, Avatar, Tooltip, Dropdown, Menu } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
@@ -14,7 +14,10 @@ const MyLayout = ({ children, user, logout, router }) => {
     const handleOnSearch = useCallback(()=>{
         router.push(`/search?query=${value}`)
     },[value])
-    const handleLogout = useCallback(()=>{logout()},[logout])
+    const handleLogout = useCallback(()=>{
+        logout()
+        Router.push('/')
+    },[logout])
     const logoutMeun = ()=>(
         <Menu>
             <Menu.Item>

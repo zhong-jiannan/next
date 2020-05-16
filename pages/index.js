@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { withRouter } from 'next/router'
+import Router,{ withRouter } from 'next/router'
 import { GlobalOutlined, MailOutlined, HomeOutlined } from '@ant-design/icons'
 import { request } from '../lib/request'
 import { connect } from 'react-redux'
@@ -7,16 +7,18 @@ import { Button, Tabs, Empty, message } from 'antd'
 import Repo from '../components/repo'
 
 const Index = ({ user, repos, starred, router }) => {
-
+    
     useEffect(()=>{
-        
         if(!user || !user.id) return
-
         if(!repos) message.error('repos获取失败')
-
         if(!starred) message.error('starred获取失败')
-
     },[user,repos,starred])
+
+    const tabKey = router.query.tab || '1'
+
+    const handleTabChange = key => {
+        Router.push(`/?tab=${key}`)
+    }
 
     if (!user || !user.id) {
         return <div className="wrapper">
@@ -60,7 +62,7 @@ const Index = ({ user, repos, starred, router }) => {
             </p>
         </div>
         <div className="repo-info">
-            <Tabs animated={false}>
+            <Tabs activeKey={tabKey} animated={false} onChange={handleTabChange}>
                 <Tabs.TabPane tab="创建的仓库" key="1">
                     { repos ? repos.map((item,index) => <Repo repo={item} key={index} /> ) : <Empty /> }
                 </Tabs.TabPane>
@@ -139,4 +141,4 @@ const mapState = state => ({
 })
 
 
-export default connect(mapState)(withRouter(Index))
+export default withRouter(connect(mapState)(Index))

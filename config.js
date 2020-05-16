@@ -1,4 +1,4 @@
-const { client_secret, redirect_uri} = require('./secret')
+const { client_secret, redirect_uri,client_id} = require('./secret')
 
 module.exports = {
     server:{
@@ -6,9 +6,9 @@ module.exports = {
         port:3000
     },
     github:{
-        login_url:`https://github.com/login/oauth/authorize?client_id=eed2e4c60426bba1efa3&redirect_uri=${redirect_uri}&scope=user`,
+        login_url:`https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=user`,
         token_url:'https://github.com/login/oauth/access_token',
-        client_id:'eed2e4c60426bba1efa3',
+        client_id,
         client_secret,
         redirect_uri,
         scope:'user'
