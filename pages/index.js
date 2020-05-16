@@ -4,7 +4,12 @@ import { GlobalOutlined, MailOutlined, HomeOutlined } from '@ant-design/icons'
 import { request } from '../lib/request'
 import { connect } from 'react-redux'
 import { Button, Tabs, Empty, message } from 'antd'
+import LRU from 'lru-cache'
 import Repo from '../components/repo'
+
+const cache = new LRU({
+    maxAge:1000 * 60 * 5
+})
 
 const Index = ({ user, repos, starred, router }) => {
     
@@ -13,6 +18,14 @@ const Index = ({ user, repos, starred, router }) => {
         if(!repos) message.error('repos获取失败')
         if(!starred) message.error('starred获取失败')
     },[user,repos,starred])
+
+    useEffect(()=>{
+        if(repos && starred){
+            cache.set('repos',repos)
+            cache.set('starred',starred)
+        }
+    },[repos,starred])
+
 
     const tabKey = router.query.tab || '1'
 
@@ -105,6 +118,15 @@ const Index = ({ user, repos, starred, router }) => {
 Index.getInitialProps = async ({ctx,reduxStore}) =>{
     const user = reduxStore.getState().user
     if(user && user.id){
+
+        if(cache.get('repos') && cache.get('starred')){
+            return {
+                repos:cache.get('repos'),
+                starred:cache.get('starred')
+            }
+        }
+
+
         try{
             const repos = await request({
                 url:'/user/repos'
@@ -134,7 +156,6 @@ Index.getInitialProps = async ({ctx,reduxStore}) =>{
 
     }
 }
-
 
 const mapState = state => ({
     user: state.user
