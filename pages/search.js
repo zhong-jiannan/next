@@ -18,24 +18,24 @@ const Search = ({repos})=>{
     return <div className="search-container">
         <Row gutter={20}>
             <Col span={5}>
-                <List 
-                    header={<span className="title">语言</span>}
-                    bordered
-                    dataSource={languages}
-                    renderItem={ item => <List.Item><a>{item}</a></List.Item> }
-                    style={{marginBottom:20}}
-                    size="small"
-                />
-
-                <List 
-                    header={<span className="title">排序</span>}
-                    bordered
-                    dataSource={ sort }
-                    renderItem={ item => <List.Item><a>{item.name}</a></List.Item> }
-                    size="small"
-                />
+                <div className="stick">
+                    <List 
+                        header={<span className="title">语言</span>}
+                        bordered
+                        dataSource={languages}
+                        renderItem={ item => <List.Item><a>{item}</a></List.Item> }
+                        style={{marginBottom:20}}
+                        size="small"
+                    />
+                    <List 
+                        header={<span className="title">排序</span>}
+                        bordered
+                        dataSource={ sort }
+                        renderItem={ item => <List.Item><a>{item.name}</a></List.Item> }
+                        size="small"
+                    />
+                </div>
             </Col>
-
             <Col span={19}>
                 { repos.items ? repos.items.map( item => <Repo repo={ item } key={item.id} />) : <Empty /> }
             </Col>
@@ -49,6 +49,10 @@ const Search = ({repos})=>{
                 font-weight:bold;
                 font-size:17px;
             }
+            .stick{
+                position:sticky;
+                top:20px;
+            }
         `}</style>
     </div>
 }
@@ -58,6 +62,7 @@ Search.getInitialProps = async ({ctx}) =>{
     const { query, language, sort, order, page } = ctx.query
 
     if(query){
+
         let queryString = `/search/repositories?q=${query}`
         if(language) queryString += `+language:${language}`
         if(sort) queryString += `&sort=${sort}&order=${ order || 'asc'}`
