@@ -41,6 +41,12 @@ const Repo = ({ repo }) => {
                         border-top:none;
                         padding-top:0;
                     }
+                    .basic-info{
+                        display:flex;
+                        flex-direction:column;
+                        flex:1;
+                        padding-right:40px;
+                    }
                     .title{
                         font-size:20px;
                     }
@@ -58,7 +64,12 @@ const Repo = ({ repo }) => {
                         margin-right:0;
                     }
                     .repo-desc{
-                        flex:1;
+                        text-overflow: -o-ellipsis-lastline;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;                        
                     }
                 `}</style>
             </div>
