@@ -7,13 +7,17 @@ import Repo from '../components/repo'
 
 const languages = ['Javascript','HTML','CSS','TypeScript','Dart']
 
-const sort = [
+const dataSource = [
     {name:'Best Match'},
     {name:'Most Stars',sort:'stars',order:'desc'},
     {name:'Fewest Stars',sort:'stars',order:'asc'},
     {name:'Most Forks',sort:'forks',order:'desc'},
     {name:'Fewest Forks',sort:'forks',order:'asc'}
 ]
+
+const selectedStyle = {
+    borderLeft:'3px solid #1890ff'
+}
 
 const noop = ()=>{}
 
@@ -35,7 +39,7 @@ const Search = ({repos,router})=>{
     const total = repos.total_count
     const query = router.query
 
-    const {page,language} = router.query
+    const {page,language,sort,order} = query
 
     return <div className="search-container">
         <Row gutter={20}>
@@ -46,8 +50,8 @@ const Search = ({repos,router})=>{
                         bordered
                         dataSource={languages}
                         renderItem={ item => (
-                        <List.Item>
-                            <FilterLink {...query} name={item} language={item} />
+                        <List.Item style={language === item ? selectedStyle : null}>
+                            { language === item ? <span>{ item }</span> : <FilterLink {...query} name={item} language={item} /> }
                         </List.Item>
                         )}
                         style={{marginBottom:20}}
@@ -55,11 +59,18 @@ const Search = ({repos,router})=>{
                     <List 
                         header={<span className="title">排序</span>}
                         bordered
-                        dataSource={ sort }
-                        renderItem={ item => (
-                        <List.Item>
-                            <FilterLink {...query} name={item.name} sort={item.sort} order={item.order} />
-                        </List.Item>)}
+                        dataSource={ dataSource }
+                        renderItem={ item => {
+                        let selected = false
+                        if(item.name === 'Best Match' && !sort){
+                            selected = true
+                        }else if (item.sort === sort && item.order === order){
+                            selected = true
+                        }
+                        return (<List.Item style={ selected ? selectedStyle : null }>
+                                {selected ? <span>{item.name}</span> : <FilterLink {...query} name={item.name} sort={item.sort} order={item.order} /> } 
+                            </List.Item>
+                        )}}
                     />
                 </div>
             </Col>
@@ -77,7 +88,7 @@ const Search = ({repos,router})=>{
                         <FilterLink
                         {...query}
                         name={type === 'page' ? page : originalElement}
-                        page={page} 
+                        page={page}
                         />
                     )}
                     />
