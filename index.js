@@ -2,6 +2,7 @@ const Koa = require('koa')
 const next = require('next')
 const session = require('koa-session')
 const Redis = require('ioredis')
+const atob = require('atob')
 const onerror = require('koa-onerror')
 const router = require('./server/router')
 const sessionStore = require('./server/session-store')
@@ -11,6 +12,9 @@ const redis = new Redis({...config.redis})
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
+
+global.atob = atob
+
 redis.on('connect',()=>{ console.log('redis client connected...') })
 app.prepare().then(() => {
     const server = new Koa()
