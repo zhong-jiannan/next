@@ -5,7 +5,16 @@ import { Row, Col, List, Empty, Pagination } from 'antd'
 import { request } from '../lib/request'
 import Repo from '../components/repo'
 
-const languages = ['Javascript','HTML','CSS','TypeScript','Dart']
+
+
+
+const languages = [{name:'All'},
+    {name:'Javascript',value:'javascript'},
+    {name:'TypeScript',value:'typescript'},
+    {name:'HTML',value:'html'},
+    {name:'CSS',value:'css'}
+]
+
 
 const dataSource = [
     {name:'Best Match'},
@@ -50,8 +59,8 @@ const Search = ({repos,router})=>{
                         bordered
                         dataSource={languages}
                         renderItem={ item => (
-                        <List.Item style={language === item ? selectedStyle : null}>
-                            { language === item ? <span>{ item }</span> : <FilterLink {...query} name={item} language={item} /> }
+                        <List.Item style={language === item.value ? selectedStyle : null}>
+                            { language === item.value ? <span>{ item.name }</span> : <FilterLink {...query} name={item.name} language={item.value} /> }
                         </List.Item>
                         )}
                         style={{marginBottom:20}}

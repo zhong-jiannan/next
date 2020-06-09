@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { StarFilled } from '@ant-design/icons'
 import moment from 'moment'
-function getLicence(licence){
-    return licence ? `${licence.spdx_id} licence` : null
+function getLicense(license){
+    return license ? `${license.spdx_id} license` : null
 }
 
 function timeFormat(time){
@@ -19,7 +19,7 @@ const Repo = ({ repo }) => {
                     </h3>
                     <p className="repo-desc">{repo.description}</p>
                     <p className="other-info">
-                        <span className="licence">{getLicence(repo.licence)}</span>
+                        <span className="license">{getLicense(repo.license)}</span>
                         <span className="last-update">{timeFormat(repo.updated_at)}</span>
                         <span className="open-issues">{repo.open_issues_count} open issues</span>
                     </p>
@@ -36,6 +36,7 @@ const Repo = ({ repo }) => {
                         justify-content:space-between;
                         border-top:1px solid #eee;
                         padding-top:20px;
+                        width:100%;
                     }
                     .item:first-child{
                         border-top:none;
