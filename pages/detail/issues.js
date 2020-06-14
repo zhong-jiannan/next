@@ -4,14 +4,10 @@ const Issues = ({text}) => {
     return <span>Issues {text}</span>
 }
 
- 
-
 Issues.getInitialProps = async ({ ctx }) =>{
     return {
         text:'issues'
     }
 }
-
-
 
 export default withRepoBasic(Issues)

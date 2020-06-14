@@ -149,7 +149,7 @@ Index.getInitialProps = async ({ctx,reduxStore}) =>{
             return data
 
         }catch(err){
-            console.log('index中repos和starred请求错误',err)
+            console.error(err)
         }
     }
     return {
