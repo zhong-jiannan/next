@@ -4,13 +4,13 @@
   "description": "a project for next study",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node index.js",
     "start": "next start",
-    "prod": "cross-env NODE_ENV=production node index.js",
-    "build": "next build"
+    "build": "next build",
+    "serve": "cross-env NODE_ENV=production node index.js",
+    "prod": "pm2 start npm --name next --watch -- run serve"
   },
-  "keywords": [],
+  "keywords": ["next-study"],
   "author": "zhongjiannan",
   "license": "ISC",
   "dependencies": {

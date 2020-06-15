@@ -2,7 +2,7 @@ import { isValidElement, useEffect } from 'react'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
 import { Row, Col, List, Empty, Pagination } from 'antd'
-import cacheArray from '../lib/cache-repo-basic'
+import cacheArray,{ setCacheSearchList, getCacheSearchList } from '../lib/cache-repo-basic'
 import { request } from '../lib/request'
 import Repo from '../components/repo'
 
@@ -42,10 +42,11 @@ const FilterLink = ({ query, name, language, sort, order, page }) => {
 
 const isServer = typeof window === 'undefined'
 
-const Search = ({ repos, router }) => {
+const Search = ({ repos, params, router }) => {
     useEffect(()=>{
         if(!isServer){
             cacheArray(repos.items)
+            setCacheSearchList(params,repos)
         }
     })
 
@@ -138,6 +139,14 @@ Search.getInitialProps = async ({ ctx }) => {
     if (!query) {
         return {}
     }
+
+    if(getCacheSearchList(ctx.query)){
+        return {
+            params:ctx.query,
+            repos:getCacheSearchList(ctx.query)
+        }
+    }
+
     let queryString = `/search/repositories?q=${query}`
     if (language) queryString += `+language:${language}`
     if (sort) queryString += `&sort=${sort}&order=${order || 'asc'}`
@@ -148,7 +157,8 @@ Search.getInitialProps = async ({ ctx }) => {
     }, ctx.req)
 
     return {
-        repos: res.data
+        repos: res.data,
+        params:ctx.query
     }
 }
 
