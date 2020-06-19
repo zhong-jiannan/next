@@ -3,18 +3,12 @@ import 'antd/dist/antd.min.css'
 import '../public/css/global.css'
 import { Provider } from 'react-redux'
 import Router from 'next/router'
+import NProgress from 'nprogress'
+import '../node_modules/nprogress/nprogress.css'
 import withRedux from '../lib/with-redux'
 import Layout from '../components/layout'
-import Loading from '../components/loading'
 class MyApp extends App {
 
-    constructor(props){
-        super(props)
-        this.state = {
-            loading:false
-        }
-    }
-    
     static async getInitialProps (ctx) {
         const { Component } = ctx
         let pageProps
@@ -30,7 +24,6 @@ class MyApp extends App {
         const { Component, pageProps, reduxStore } = this.props
         return (
             <Provider store={reduxStore}>
-                {this.state.loading ? <Loading /> : null }
                 <Layout>
                   <Component { ...pageProps } />
                 </Layout>
@@ -38,16 +31,14 @@ class MyApp extends App {
         )      
     }
 
+    timer = null
+
     showLoading = () => {
-        this.setState({
-            loading:true
-        })
+        NProgress.start()
     }
 
     hideLoading = () => {
-        this.setState({
-            loading:false
-        })
+        NProgress.done()
     }
 
     componentDidMount(){
@@ -57,9 +48,9 @@ class MyApp extends App {
     }
 
     componentWillUnmount(){
-        Router.events.on('routeChangeStart')
-        Router.events.on('routeChangeComplete')
-        Router.events.on('routeChangeError')
+        Router.events.off('routeChangeStart',this.showLoading)
+        Router.events.off('routeChangeComplete',this.hideLoading)
+        Router.events.off('routeChangeError',this.hideLoading)
     }
 
 }

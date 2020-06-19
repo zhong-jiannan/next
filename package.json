@@ -10,7 +10,9 @@
     "serve": "cross-env NODE_ENV=production node index.js",
     "prod": "pm2 start npm --name next --watch -- run serve"
   },
-  "keywords": ["next-study"],
+  "keywords": [
+    "next-study"
+  ],
   "author": "zhongjiannan",
   "license": "ISC",
   "dependencies": {
@@ -29,6 +31,7 @@
     "markdown-it": "^11.0.0",
     "moment": "^2.24.0",
     "next": "^9.3.0",
+    "nprogress": "^0.2.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",

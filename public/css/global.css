@@ -51,3 +51,8 @@ body::-webkit-scrollbar-thumb:hover {
     display: flex;
     align-items: center;
 }
+
+.ant-progress{
+  font-size: 0;
+  line-height: normal;
+}
