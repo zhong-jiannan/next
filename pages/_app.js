@@ -1,5 +1,6 @@
 import App from 'next/app'
 import 'antd/dist/antd.min.css'
+import 'github-markdown-css'
 import '../public/css/global.css'
 import { Provider } from 'react-redux'
 import Router from 'next/router'
@@ -7,6 +8,7 @@ import NProgress from 'nprogress'
 import '../node_modules/nprogress/nprogress.css'
 import withRedux from '../lib/with-redux'
 import Layout from '../components/layout'
+
 class MyApp extends App {
 
     static async getInitialProps (ctx) {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import Router,{ withRouter } from 'next/router'
-import { GlobalOutlined, MailOutlined, HomeOutlined } from '@ant-design/icons'
+import { GlobalOutlined, MailOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons'
 import { request } from '../lib/request'
 import { connect } from 'react-redux'
 import { Button, Tabs, Empty, message } from 'antd'
@@ -40,19 +40,9 @@ const Index = ({ user, repos, starred, router }) => {
                 <Button type="primary">点击登陆</Button>
             </a>
             <style jsx>{`
-            .wrapper{
-                display:flex;
-                width:100%;
-                height:100%;
-                flex-direction:column;
-                justify-content:center;
-                align-items:center;
-            }
-            .tip-text{
-                padding:0;
-                margin:0;
-            }
-        `}</style>
+                .wrapper{display:flex;width:100%;height:100%;flex-direction:column;justify-content:center;align-items:center}
+                .tip-text{padding:0;margin:0}
+            `}</style>
         </div>
     }
     return <div className='wrapper'>
@@ -60,19 +50,24 @@ const Index = ({ user, repos, starred, router }) => {
             <div className="avatar">
                 <img src={user.avatar_url} />
             </div>
-            <p className="name">{user.name}</p>
-            <p className="location">
-                <HomeOutlined />
-                {user.location}
-            </p>
-            <p className="email">
-                <MailOutlined />
-                {user.email}
-            </p>
-            <p className="website">
-                <GlobalOutlined />
-                {user.blog}
-            </p>
+            <ul>
+                <li>
+                    <UserOutlined />
+                    <label>{user.name}</label>
+                </li>
+                <li>
+                    <HomeOutlined />
+                    <label>{user.location}</label>
+                </li>
+                <li>
+                    <MailOutlined />
+                    <label>{user.email}</label>
+                </li>
+                <li>
+                    <GlobalOutlined />
+                    <a href={user.blog}>{user.blog}</a>
+                </li>
+            </ul>
         </div>
         <div className="repo-info">
             <Tabs activeKey={tabKey} animated={false} onChange={handleTabChange}>
@@ -99,11 +94,28 @@ const Index = ({ user, repos, starred, router }) => {
             .avatar{
                 width:200px;
                 height:200px;
-                margin-bottom:30px;
             }
+            .user-info ul{
+                margin-top:15px;
+                list-style:none;
+                padding:0;
+            }
+
+            .user-info ul li{
+                line-height:35px;
+                font-size:15px;
+            }
+
+            .user-info ul li label,
+            .user-info ul li a{
+                margin-left:8px;
+                color:#666;
+            }
+
             .avatar img {
                 border-radius:5px;
                 width:100%;
+                display:block;
             }
             .name{
                 font-size:22px;

@@ -1,15 +1,9 @@
 import Link from 'next/link'
 import { StarFilled } from '@ant-design/icons'
-import moment from 'moment'
-function getLicense(license){
-    return license ? `${license.spdx_id} license` : null
-}
-
-function timeFormat(time){
-    return moment(time).fromNow()
-}
+import { timeFromNow } from '../lib/utils'
 
 const Repo = ({ repo }) => {
+    console.log(repo)
     return <div className="item">
                 <div className="basic-info">
                     <h3 className="title">
@@ -19,8 +13,8 @@ const Repo = ({ repo }) => {
                     </h3>
                     <p className="repo-desc">{repo.description}</p>
                     <p className="other-info">
-                        <span className="license">{getLicense(repo.license)}</span>
-                        <span className="last-update">{timeFormat(repo.updated_at)}</span>
+                        <span className="license">{repo.license ? `${repo.license.spdx_id} license` : null }</span>
+                        <span className="last-update">{timeFromNow(repo.updated_at)}</span>
                         <span className="open-issues">{repo.open_issues_count} open issues</span>
                     </p>
                 </div>
